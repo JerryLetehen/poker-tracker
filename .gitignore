@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+*.user
+*.DotSettings.user
+publish/
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.idea/
+.vs/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / Credentials
+*.env
+appsettings.Staging.json
+appsettings.Production.json
+poker-data-*.json
+client_secret_*.json

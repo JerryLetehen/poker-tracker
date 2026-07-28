@@ -1,0 +1,26 @@
+@poker_web_api_HostAddress = http://localhost:5264
+
+GET {{poker_web_api_HostAddress}}/player-list
+Accept: application/json
+
+###
+
+GET {{poker_web_api_HostAddress}}/leaderboard?sortBy=rate&minGames=1
+Accept: application/json
+
+###
+
+GET {{poker_web_api_HostAddress}}/games
+Accept: application/json
+
+###
+
+GET {{poker_web_api_HostAddress}}/games/1
+Accept: application/json
+
+###
+
+GET {{poker_web_api_HostAddress}}/players/Ruslan/progression
+Accept: application/json
+
+###
