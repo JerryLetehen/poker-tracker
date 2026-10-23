@@ -18,4 +18,5 @@ public class GameEntry
 
     public EntryType Type { get; set; }
     public decimal Amount { get; set; }
+    public string? PhotoUrl { get; set; }
 }

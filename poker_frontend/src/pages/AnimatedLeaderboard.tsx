@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CrownName } from '../hooks/useTopPlayer';
+import { apiFetch } from '../api/client';
 
 interface PlayerSnapshot {
   name: string;
@@ -32,14 +34,14 @@ export default function TimelineLeaderboard() {
   const sortByRef = useRef<'rate' | 'net'>('rate');
 
   useEffect(() => {
-    fetch('/api/leaderboard/history')
-      .then(res => res.json())
-      .then((data: Snapshot[]) => {
+    apiFetch<Snapshot[]>('/leaderboard/history')
+      .then((data) => {
         setSnapshots(data);
         if (data.length > 0) {
           goToRound(data, 0);
         }
-      });
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -146,7 +148,7 @@ export default function TimelineLeaderboard() {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="text-gray-400 text-sm w-5">{i + 1}</span>
-                  <span className="font-medium">{row.name}</span>
+                  <span className="font-medium"><CrownName name={row.name} /></span>
                   <span className={`text-xs ${row.positionDelta > 0 ? 'text-green-600' : row.positionDelta < 0 ? 'text-red-600' : 'text-gray-400'}`}>
                     {row.positionDelta > 0 ? `↑${row.positionDelta}` : row.positionDelta < 0 ? `↓${Math.abs(row.positionDelta)}` : ''}
                   </span>

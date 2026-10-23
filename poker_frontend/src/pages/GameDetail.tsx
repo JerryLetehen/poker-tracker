@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { CrownName } from '../hooks/useTopPlayer';
+import { apiFetch } from '../api/client';
 
 interface PlayerEntry {
   playerName: string;
@@ -19,9 +21,9 @@ export default function GameDetail() {
   const [game, setGame] = useState<GameData | null>(null);
 
   useEffect(() => {
-    fetch(`/api/games/${id}`)
-      .then(res => res.json())
-      .then(setGame);
+    apiFetch<GameData>(`/games/${id}`)
+      .then(setGame)
+      .catch(() => {});
   }, [id]);
 
   if (!game) return <div className="p-4 text-center">Loading...</div>;
@@ -45,7 +47,7 @@ export default function GameDetail() {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="text-gray-400 text-sm w-5">{i + 1}</span>
-                  <span className="font-medium">{entry.playerName}</span>
+                  <span className="font-medium"><CrownName name={entry.playerName} /></span>
                 </div>
                 <span className={`font-medium ${entry.net > 0 ? 'text-green-600' : entry.net < 0 ? 'text-red-600' : ''}`}>
                   {entry.net >= 0 ? '+' : ''}{entry.net.toFixed(2)}

@@ -25,7 +25,7 @@ public static class GetAdminGameDetail
                     Type = e.Type == EntryType.BuyIn ? "buy-in" : "cash-out",
                     e.Amount,
                     PlayerName = e.Player.Name,
-                    e.PlayerId
+                    e.PlayerId,
                 })
                 .ToList();
 

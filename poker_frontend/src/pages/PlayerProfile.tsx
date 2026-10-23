@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { CrownName } from '../hooks/useTopPlayer';
+import { formatValue, valueColor, findBest, findWorst } from '../utils';
+import { apiFetch } from '../api/client';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -48,18 +51,7 @@ interface ProgressionPoint {
   result: number;
   cumulativeResult: number;
   rate: number;
-  median: number;
   buyIn: number;
-}
-
-function formatValue(val: number) {
-  return `${val >= 0 ? '+' : ''}${val.toFixed(2)}`;
-}
-
-function valueColor(val: number) {
-  if (val > 0) return 'text-green-600';
-  if (val < 0) return 'text-red-600';
-  return '';
 }
 
 export default function PlayerProfile() {
@@ -67,17 +59,17 @@ export default function PlayerProfile() {
   const [data, setData] = useState<ProgressionPoint[]>([]);
 
   useEffect(() => {
-    fetch(`/api/players/${name}/progression`)
-      .then(res => res.json())
-      .then(setData);
+    apiFetch<ProgressionPoint[]>(`/players/${name}/progression`)
+      .then(setData)
+      .catch(() => {});
   }, [name]);
 
   const lastPoint = data.length > 0 ? data[data.length - 1] : null;
-  const bestWin = data.length > 0 ? data.reduce((max, p) => p.result > max.result ? p : max, data[0]) : null;
-  const worstLoss = data.length > 0 ? data.reduce((min, p) => p.result < min.result ? p : min, data[0]) : null;
-  const maxCumulative = data.length > 0 ? data.reduce((max, p) => p.cumulativeResult > max.cumulativeResult ? p : max, data[0]) : null;
-  const minCumulative = data.length > 0 ? data.reduce((min, p) => p.cumulativeResult < min.cumulativeResult ? p : min, data[0]) : null;
-  const biggestBuyIn = data.length > 0 ? data.reduce((max, p) => p.buyIn > max.buyIn ? p : max, data[0]) : null;
+  const bestWin = findBest(data, p => p.result);
+  const worstLoss = findWorst(data, p => p.result);
+  const maxCumulative = findBest(data, p => p.cumulativeResult);
+  const minCumulative = findWorst(data, p => p.cumulativeResult);
+  const biggestBuyIn = findBest(data, p => p.buyIn);
 
   const chartData = {
     labels: data.map(p => p.date),
@@ -93,7 +85,7 @@ export default function PlayerProfile() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold mb-3">{name}</h1>
+      <h1 className="text-lg font-bold mb-3"><CrownName name={name || ''} /></h1>
 
       {lastPoint && (
         <div className="space-y-1 mb-4">
@@ -102,13 +94,14 @@ export default function PlayerProfile() {
             <span className="font-medium text-sm">{data.length}</span>
           </div>
           <div className="flex justify-between border rounded-lg p-2">
+            <span className="text-gray-500 text-sm">Net</span>
+            <span className={`font-medium text-sm ${valueColor(lastPoint.cumulativeResult)}`}>{formatValue(lastPoint.cumulativeResult)}</span>
+          </div>
+          <div className="flex justify-between border rounded-lg p-2">
             <span className="text-gray-500 text-sm">Rate</span>
             <span className={`font-medium text-sm ${valueColor(lastPoint.rate)}`}>{formatValue(lastPoint.rate)}</span>
           </div>
-          <div className="flex justify-between border rounded-lg p-2">
-            <span className="text-gray-500 text-sm">Median</span>
-            <span className={`font-medium text-sm ${valueColor(lastPoint.median)}`}>{formatValue(lastPoint.median)}</span>
-          </div>
+
           {bestWin && (
             <div className="flex justify-between border rounded-lg p-2">
               <span className="text-gray-500 text-sm">Best</span>
@@ -160,6 +153,21 @@ export default function PlayerProfile() {
       <div className="h-64">
         <Line data={chartData} plugins={[zeroLineBackground]} options={{ responsive: true, maintainAspectRatio: false }} />
       </div>
+
+      {/* Player's games list */}
+      {data.length > 0 && (
+        <div className="mt-4 space-y-2">
+          <p className="text-sm text-gray-500 font-medium">Games:</p>
+          {[...data].reverse().map(point => (
+            <Link key={point.gameId} to={`/games/${point.gameId}`} className="block">
+              <div className="flex justify-between items-center border rounded-lg p-2 active:bg-gray-50">
+                <span className="text-sm">{point.date}</span>
+                <span className={`text-sm font-medium ${valueColor(point.result)}`}>{formatValue(point.result)}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

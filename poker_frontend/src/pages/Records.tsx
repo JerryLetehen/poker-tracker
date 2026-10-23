@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CrownName } from '../hooks/useTopPlayer';
+import { apiFetch } from '../api/client';
 
 interface WinLossRecord {
   playerName: string;
@@ -39,9 +41,9 @@ export default function Records() {
   const [data, setData] = useState<RecordsData | null>(null);
 
   useEffect(() => {
-    fetch('/api/records')
-      .then(res => res.json())
-      .then(setData);
+    apiFetch<RecordsData>('/records')
+      .then(setData)
+      .catch(() => {});
   }, []);
 
   if (!data) return <div>Loading...</div>;
@@ -66,7 +68,7 @@ export default function Records() {
               <tr key={r.playerName} className="border-b">
                 <td className="p-2">{i + 1}</td>
                 <td className="p-2">
-                  <Link to={`/players/${r.playerName}`} className="text-blue-600 hover:underline">{r.playerName}</Link>
+                  <Link to={`/players/${r.playerName}`} className="text-blue-600 hover:underline"><CrownName name={r.playerName} /></Link>
                 </td>
                 <td className="p-2">
                   <Link to={`/games/${r.gameId}`} className="text-blue-600 hover:underline">{r.date}</Link>
@@ -94,7 +96,7 @@ export default function Records() {
               <tr key={r.playerName} className="border-b">
                 <td className="p-2">{i + 1}</td>
                 <td className="p-2">
-                  <Link to={`/players/${r.playerName}`} className="text-blue-600 hover:underline">{r.playerName}</Link>
+                  <Link to={`/players/${r.playerName}`} className="text-blue-600 hover:underline"><CrownName name={r.playerName} /></Link>
                 </td>
                 <td className="p-2">
                   <Link to={`/games/${r.gameId}`} className="text-blue-600 hover:underline">{r.date}</Link>
@@ -122,7 +124,7 @@ export default function Records() {
               <tr key={r.playerName} className="border-b">
                 <td className="p-2">{i + 1}</td>
                 <td className="p-2">
-                  <Link to={`/players/${r.playerName}`} className="text-blue-600 hover:underline">{r.playerName}</Link>
+                  <Link to={`/players/${r.playerName}`} className="text-blue-600 hover:underline"><CrownName name={r.playerName} /></Link>
                 </td>
                 <td className="p-2">
                   <Link to={`/games/${r.gameId}`} className="text-blue-600 hover:underline">{r.date}</Link>

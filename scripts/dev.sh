@@ -3,23 +3,7 @@ set -e
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-# Check if PostgreSQL is running
-if ! pg_isready -h localhost -p 5432 > /dev/null 2>&1; then
-  echo "Starting PostgreSQL..."
-  open -a Postgres
-  # Wait for it to be ready
-  for i in {1..10}; do
-    if pg_isready -h localhost -p 5432 > /dev/null 2>&1; then
-      break
-    fi
-    sleep 1
-  done
-  if ! pg_isready -h localhost -p 5432 > /dev/null 2>&1; then
-    echo "❌ PostgreSQL failed to start"
-    exit 1
-  fi
-fi
-echo "✅ PostgreSQL running"
+# SQLite needs no server — the database is just a file in data/
 
 # Start API in background
 echo "Starting API server..."

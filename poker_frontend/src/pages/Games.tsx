@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { apiFetch } from '../api/client';
 
 interface Game {
   id: number;
@@ -19,9 +20,9 @@ export default function Games() {
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
-    fetch('/api/games')
-      .then(res => res.json())
-      .then(setGames);
+    apiFetch<Game[]>('/games')
+      .then(setGames)
+      .catch(() => {});
   }, []);
 
   return (

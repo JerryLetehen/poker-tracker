@@ -1,0 +1,49 @@
+# Single-app image for Fly.io: builds both SPAs + the .NET API and bundles the SPA
+# static files into the API image. The API serves:
+#   /            -> public SPA
+#   /admin/      -> admin SPA
+#   /api/...     -> API endpoints
+#   /uploads, /bot, /health -> API
+#
+# Build from the repo root:  docker build -f Dockerfile.fly -t poker-fly .
+
+# --- Build the public SPA ---
+FROM node:22-alpine AS public-build
+WORKDIR /pub
+COPY poker_frontend/package.json poker_frontend/package-lock.json ./
+RUN npm ci
+COPY poker_frontend/ ./
+# Served at root; same-origin /api base URL (default) works.
+RUN npm run build
+
+# --- Build the admin SPA (served under /admin/) ---
+FROM node:22-alpine AS admin-build
+WORKDIR /adm
+COPY poker_admin/package.json poker_admin/package-lock.json ./
+RUN npm ci
+COPY poker_admin/ ./
+ENV VITE_BASE=/admin/
+RUN npm run build
+
+# --- Build/publish the API ---
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS api-build
+WORKDIR /src
+COPY poker_web_api/poker_web_api.csproj poker_web_api/
+RUN dotnet restore poker_web_api/poker_web_api.csproj
+COPY . .
+RUN dotnet publish poker_web_api/poker_web_api.csproj -c Release -o /app/publish /p:UseAppHost=false
+
+# --- Final runtime image ---
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+# Data + uploads live on a Fly volume mounted at /data; create dirs owned by the app user.
+RUN mkdir -p /data /app/uploads \
+    && chown -R app:app /data /app/uploads
+COPY --from=api-build /app/publish ./
+# Bundle the built SPAs where FrontendHosting expects them.
+COPY --from=public-build /pub/dist ./wwwroot/public
+COPY --from=admin-build  /adm/dist ./wwwroot/admin
+RUN chown -R app:app /app/wwwroot
+USER app
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "poker_web_api.dll"]

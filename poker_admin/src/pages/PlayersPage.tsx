@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiFetch, apiJson } from '../api/client';
 
 interface Player {
   id: number;
@@ -16,8 +17,7 @@ export default function PlayersPage() {
   }, []);
 
   async function loadPlayers() {
-    const res = await fetch('/api/admin/players');
-    setPlayers(await res.json());
+    setPlayers(await apiFetch<Player[]>('/admin/players'));
   }
 
   function startEdit(player: Player) {
@@ -27,22 +27,14 @@ export default function PlayersPage() {
 
   async function saveEdit(playerId: number) {
     if (!editName.trim()) return;
-    await fetch(`/api/admin/players/${playerId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: editName.trim() }),
-    });
+    await apiJson(`/admin/players/${playerId}`, 'PUT', { name: editName.trim() });
     setEditingId(null);
     loadPlayers();
   }
 
   async function createPlayer() {
     if (!newName.trim()) return;
-    await fetch('/api/admin/players', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: newName.trim() }),
-    });
+    await apiJson('/admin/players', 'POST', { name: newName.trim() });
     setNewName('');
     loadPlayers();
   }

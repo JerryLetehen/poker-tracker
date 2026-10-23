@@ -18,8 +18,30 @@ dist/
 .DS_Store
 Thumbs.db
 
+# SQLite database files (and any backup/snapshot copies — they contain real data)
+*.db
+*.db-shm
+*.db-wal
+*.db.bak*
+*.db-*
+*.sqlite
+*.sqlite3
+
+# Local-only data-import tool (contains Google service-account credentials). Kept out of
+# the public repo entirely.
+data_fill/
+
+# Kiro agent working files (internal task tracking, not part of the project)
+.agents/
+
 # Secrets / Credentials
+# Ignore every real env file (.env, .env.dev, .env.prod, .env.proxy, .env.local, *.env)
+# but KEEP the committed *.example templates (including .env.dev.example etc.).
+.env
+.env.*
 *.env
+!.env.example
+!*.example
 appsettings.Staging.json
 appsettings.Production.json
 poker-data-*.json

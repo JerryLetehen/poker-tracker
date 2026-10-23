@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
+import { apiFetch } from '../api/client';
 
 interface PlayerSnapshot {
   name: string;
@@ -23,12 +24,12 @@ export default function ChartRace() {
   const [totalRounds, setTotalRounds] = useState(0);
 
   useEffect(() => {
-    fetch('/api/leaderboard/history')
-      .then(res => res.json())
-      .then((snapshots: Snapshot[]) => {
+    apiFetch<Snapshot[]>('/leaderboard/history')
+      .then((snapshots) => {
         setTotalRounds(snapshots.length - 1);
         buildChart(snapshots);
-      });
+      })
+      .catch(() => {});
   }, []);
 
   function buildChart(snapshots: Snapshot[]) {

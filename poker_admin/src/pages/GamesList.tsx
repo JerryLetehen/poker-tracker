@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiFetch, apiJson } from '../api/client';
 
 interface Game {
   id: number;
@@ -14,9 +15,9 @@ export default function GamesList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/games')
-      .then(res => res.json())
-      .then(setGames);
+    apiFetch<Game[]>('/games')
+      .then(setGames)
+      .catch(() => {});
   }, []);
 
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -26,14 +27,14 @@ export default function GamesList() {
   async function createGame() {
     if (!newBuyIn) return;
 
-    const res = await fetch('/api/admin/games', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gameType: newGameType, buyInAmount: Number(newBuyIn) }),
-    });
-    if (res.ok) {
-      const game = await res.json();
+    try {
+      const game = await apiJson<{ id: number }>('/admin/games', 'POST', {
+        gameType: newGameType,
+        buyInAmount: Number(newBuyIn),
+      });
       navigate(`/games/${game.id}`);
+    } catch {
+      // Errors are surfaced by the AuthGate for auth issues; ignore otherwise.
     }
   }
 

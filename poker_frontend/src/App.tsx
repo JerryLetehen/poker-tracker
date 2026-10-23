@@ -7,6 +7,7 @@ import PlayerProfile from './pages/PlayerProfile';
 import ChartRace from './pages/ChartRace';
 import AnimatedLeaderboard from './pages/AnimatedLeaderboard';
 import Records from './pages/Records';
+import AuthGate from './api/AuthGate';
 
 function Nav() {
   const location = useLocation();
@@ -38,6 +39,7 @@ function Nav() {
 
 export default function App() {
   return (
+    <AuthGate>
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50 pb-16">
         <main className="px-4 pt-4">
@@ -55,5 +57,6 @@ export default function App() {
         <Nav />
       </div>
     </BrowserRouter>
+    </AuthGate>
   );
 }

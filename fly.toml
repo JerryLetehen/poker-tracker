@@ -1,0 +1,51 @@
+# Fly.io config for the single-app Poker Tracker (prod).
+# Replace APP_NAME_PLACEHOLDER and REGION_PLACEHOLDER before first deploy
+# (or let `fly launch` fill them in).
+#
+# Secrets are NOT in this file — set them with `fly secrets set` (see DEPLOYMENT.md).
+
+app = "poker-tracker-rd"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile.fly"
+
+[env]
+  ASPNETCORE_ENVIRONMENT = "Production"
+  ASPNETCORE_URLS = "http://+:8080"
+  ConnectionStrings__Sqlite = "Data Source=/data/poker.db"
+  # The API serves both SPAs from this single app.
+  FrontendHosting__Enabled = "true"
+
+# SQLite is single-writer: run exactly one machine. Auto-stop when idle to minimise cost;
+# it auto-starts on the next incoming request (brief cold start).
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 200
+    soft_limit = 150
+
+[[http_service.checks]]
+  method = "get"
+  path = "/health"
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "15s"
+
+# Persistent volume for the SQLite database + uploads. Create it once:
+#   fly volumes create poker_data --region fra --size 1
+[[mounts]]
+  source = "poker_data"
+  destination = "/data"
+
+# Single-machine guest (cheapest shared CPU). Keep max at 1 for SQLite.
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+  cpus = 1

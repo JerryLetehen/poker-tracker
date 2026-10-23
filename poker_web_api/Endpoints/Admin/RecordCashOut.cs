@@ -20,7 +20,7 @@ public static class RecordCashOut
                 GameId = gameId,
                 PlayerId = request.PlayerId,
                 Type = EntryType.CashOut,
-                Amount = request.Amount
+                Amount = request.Amount,
             };
             db.GameEntries.Add(entry);
             await db.SaveChangesAsync();

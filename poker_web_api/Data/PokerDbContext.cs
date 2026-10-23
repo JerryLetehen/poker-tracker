@@ -11,6 +11,8 @@ public class PokerDbContext : DbContext
     public DbSet<Player> Players => Set<Player>();
     public DbSet<Game> Games => Set<Game>();
     public DbSet<GameEntry> GameEntries => Set<GameEntry>();
+    public DbSet<AccessUser> AccessUsers => Set<AccessUser>();
+    public DbSet<PendingAccessRequest> PendingAccessRequests => Set<PendingAccessRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,5 +22,19 @@ public class PokerDbContext : DbContext
                 v => v == EntryType.BuyIn ? "buy-in" : "cash-out",
                 v => v == "buy-in" ? EntryType.BuyIn : EntryType.CashOut
             ));
+
+        modelBuilder.Entity<AccessUser>(entity =>
+        {
+            entity.HasIndex(u => u.TelegramUserId).IsUnique();
+            entity.Property(u => u.Scope)
+                .HasConversion(new ValueConverter<AccessScope, string>(
+                    v => v == AccessScope.Admin ? "admin" : "public",
+                    v => v == "admin" ? AccessScope.Admin : AccessScope.Public
+                ));
+        });
+
+        modelBuilder.Entity<PendingAccessRequest>()
+            .HasIndex(r => r.TelegramUserId)
+            .IsUnique();
     }
 }

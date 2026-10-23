@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CrownName } from '../hooks/useTopPlayer';
+import { apiFetch } from '../api/client';
 
 interface LeaderboardEntry {
   name: string;
@@ -11,12 +13,12 @@ interface LeaderboardEntry {
 
 export default function Leaderboard() {
   const [data, setData] = useState<LeaderboardEntry[]>([]);
-  const [sortBy, setSortBy] = useState<'rate' | 'net'>('rate');
+  const [sortBy, setSortBy] = useState<'net' | 'rate'>('rate');
 
   useEffect(() => {
-    fetch(`/api/leaderboard?sortBy=${sortBy}&minGames=5`)
-      .then(res => res.json())
-      .then(setData);
+    apiFetch<LeaderboardEntry[]>(`/leaderboard?sortBy=${sortBy}&minGames=5`)
+      .then(setData)
+      .catch(() => {});
   }, [sortBy]);
 
   return (
@@ -25,16 +27,16 @@ export default function Leaderboard() {
         <h1 className="text-lg font-bold">Leaderboard</h1>
         <div className="flex gap-1">
           <button
-            className={`px-2 py-1 text-xs rounded ${sortBy === 'rate' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-            onClick={() => setSortBy('rate')}
-          >
-            Rate
-          </button>
-          <button
             className={`px-2 py-1 text-xs rounded ${sortBy === 'net' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
             onClick={() => setSortBy('net')}
           >
             Net
+          </button>
+          <button
+              className={`px-2 py-1 text-xs rounded ${sortBy === 'rate' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+              onClick={() => setSortBy('rate')}
+          >
+            Rate
           </button>
         </div>
       </div>
@@ -55,13 +57,8 @@ export default function Leaderboard() {
                 <td className="py-2 pr-1 text-gray-400">{i + 1}</td>
                 <td className="py-2 pr-2">
                   <Link to={`/players/${entry.name}`} className="font-medium text-blue-600">
-                    {entry.name}
+                    <CrownName name={entry.name} />
                   </Link>
-                  {entry.positionDelta !== 0 && (
-                    <span className={`ml-1 text-xs ${entry.positionDelta > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {entry.positionDelta > 0 ? `↑${entry.positionDelta}` : `↓${Math.abs(entry.positionDelta)}`}
-                    </span>
-                  )}
                 </td>
                 <td className="py-2 pr-2 text-right text-gray-500">{entry.games}</td>
                 <td className={`py-2 pr-2 text-right ${entry.result > 0 ? 'text-green-600' : entry.result < 0 ? 'text-red-600' : ''}`}>

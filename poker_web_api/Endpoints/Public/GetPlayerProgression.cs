@@ -28,16 +28,11 @@ public static class GetPlayerProgression
                 .ToListAsync();
 
             var cumulativeResult = 0m;
-            var nets = new List<decimal>();
+            var count = 0;
             var progression = gameNets.Select(g =>
             {
                 cumulativeResult += g.Net;
-                nets.Add(g.Net);
-                var sortedNets = nets.OrderBy(n => n).ToList();
-                var count = sortedNets.Count;
-                var median = count % 2 == 1
-                    ? sortedNets[count / 2]
-                    : (sortedNets[count / 2 - 1] + sortedNets[count / 2]) / 2;
+                count++;
 
                 return new
                 {
@@ -46,7 +41,6 @@ public static class GetPlayerProgression
                     Result = g.Net,
                     CumulativeResult = cumulativeResult,
                     Rate = cumulativeResult / count,
-                    Median = median,
                     g.BuyIn
                 };
             }).ToList();
