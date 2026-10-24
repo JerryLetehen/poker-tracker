@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CrownName } from '../hooks/useTopPlayer';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 
 interface PlayerSnapshot {
   name: string;
@@ -32,6 +33,7 @@ export default function TimelineLeaderboard() {
   const [sortBy, setSortBy] = useState<'rate' | 'net'>('rate');
   const prevRanksRef = useRef<Record<string, number>>({});
   const sortByRef = useRef<'rate' | 'net'>('rate');
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<Snapshot[]>('/leaderboard/history')
@@ -108,7 +110,7 @@ export default function TimelineLeaderboard() {
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
-        <h1 className="text-lg font-bold">Timeline</h1>
+        <h1 className="text-lg font-bold">{t('timeline.title')}</h1>
         <div className="flex gap-1">
           <button
             className={`px-2 py-1 text-xs rounded ${sortBy === 'rate' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}

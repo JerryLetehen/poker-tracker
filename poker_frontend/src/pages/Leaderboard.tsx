@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CrownName } from '../hooks/useTopPlayer';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 
 interface LeaderboardEntry {
   name: string;
@@ -14,6 +15,7 @@ interface LeaderboardEntry {
 export default function Leaderboard() {
   const [data, setData] = useState<LeaderboardEntry[]>([]);
   const [sortBy, setSortBy] = useState<'net' | 'rate'>('rate');
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<LeaderboardEntry[]>(`/leaderboard?sortBy=${sortBy}&minGames=5`)
@@ -24,19 +26,19 @@ export default function Leaderboard() {
   return (
     <div>
       <div className="flex justify-between items-center mb-3">
-        <h1 className="text-lg font-bold">Leaderboard</h1>
+        <h1 className="text-lg font-bold">{t('leaderboard.title')}</h1>
         <div className="flex gap-1">
           <button
             className={`px-2 py-1 text-xs rounded ${sortBy === 'net' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
             onClick={() => setSortBy('net')}
           >
-            Net
+            {t('leaderboard.net')}
           </button>
           <button
               className={`px-2 py-1 text-xs rounded ${sortBy === 'rate' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
               onClick={() => setSortBy('rate')}
           >
-            Rate
+            {t('leaderboard.rate')}
           </button>
         </div>
       </div>
@@ -45,10 +47,10 @@ export default function Leaderboard() {
           <thead>
             <tr className="border-b text-gray-500">
               <th className="py-2 pr-1 text-left">#</th>
-              <th className="py-2 pr-2 text-left">Name</th>
-              <th className="py-2 pr-2 text-right">Games</th>
-              <th className="py-2 pr-2 text-right">Net</th>
-              <th className="py-2 text-right">Rate</th>
+              <th className="py-2 pr-2 text-left">{t('leaderboard.col.name')}</th>
+              <th className="py-2 pr-2 text-right">{t('leaderboard.col.games')}</th>
+              <th className="py-2 pr-2 text-right">{t('leaderboard.net')}</th>
+              <th className="py-2 text-right">{t('leaderboard.rate')}</th>
             </tr>
           </thead>
           <tbody>

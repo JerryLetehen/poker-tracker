@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CrownName } from '../hooks/useTopPlayer';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 
 interface PlayerEntry {
   playerName: string;
@@ -19,6 +20,7 @@ interface GameData {
 export default function GameDetail() {
   const { id } = useParams();
   const [game, setGame] = useState<GameData | null>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<GameData>(`/games/${id}`)
@@ -26,7 +28,7 @@ export default function GameDetail() {
       .catch(() => {});
   }, [id]);
 
-  if (!game) return <div className="p-4 text-center">Loading...</div>;
+  if (!game) return <div className="p-4 text-center">{t('common.loading')}</div>;
 
   const totalPot = game.players.reduce((sum, p) => sum + p.buyIn, 0);
 
@@ -36,8 +38,8 @@ export default function GameDetail() {
         <h1 className="text-lg font-bold">{game.date}</h1>
         <div className="flex gap-3 text-sm text-gray-500">
           <span>{game.gameType}</span>
-          <span>Pot: {totalPot.toFixed(0)}</span>
-          <span>{game.players.length} players</span>
+          <span>{t('game.pot')}: {totalPot.toFixed(0)}</span>
+          <span>{game.players.length} {t('game.players')}</span>
         </div>
       </div>
       <div className="space-y-2">
@@ -54,8 +56,8 @@ export default function GameDetail() {
                 </span>
               </div>
               <div className="flex gap-4 mt-1 text-xs text-gray-500 ml-7">
-                <span>In: {entry.buyIn.toFixed(2)}</span>
-                <span>Out: {entry.cashOut.toFixed(2)}</span>
+                <span>{t('game.in')}: {entry.buyIn.toFixed(2)}</span>
+                <span>{t('game.out')}: {entry.cashOut.toFixed(2)}</span>
               </div>
             </div>
           </Link>

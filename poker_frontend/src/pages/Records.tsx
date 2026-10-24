@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CrownName } from '../hooks/useTopPlayer';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 
 interface WinLossRecord {
   playerName: string;
@@ -39,6 +40,7 @@ interface RecordsData {
 
 export default function Records() {
   const [data, setData] = useState<RecordsData | null>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<RecordsData>('/records')
@@ -46,21 +48,21 @@ export default function Records() {
       .catch(() => {});
   }, []);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div>{t('common.loading')}</div>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Records</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('records.title')}</h1>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">🏆 Biggest Win (single game)</h2>
+        <h2 className="text-xl font-semibold mb-3">{t('records.biggestWin')}</h2>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b">
               <th className="p-2">#</th>
-              <th className="p-2">Player</th>
-              <th className="p-2">Game</th>
-              <th className="p-2">Net</th>
+              <th className="p-2">{t('records.col.player')}</th>
+              <th className="p-2">{t('records.col.game')}</th>
+              <th className="p-2">{t('records.col.net')}</th>
             </tr>
           </thead>
           <tbody>
@@ -81,14 +83,14 @@ export default function Records() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">💀 Biggest Loss (single game)</h2>
+        <h2 className="text-xl font-semibold mb-3">{t('records.biggestLoss')}</h2>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b">
               <th className="p-2">#</th>
-              <th className="p-2">Player</th>
-              <th className="p-2">Game</th>
-              <th className="p-2">Net</th>
+              <th className="p-2">{t('records.col.player')}</th>
+              <th className="p-2">{t('records.col.game')}</th>
+              <th className="p-2">{t('records.col.net')}</th>
             </tr>
           </thead>
           <tbody>
@@ -109,14 +111,14 @@ export default function Records() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">🎰 Biggest Buy-in (top 5 players)</h2>
+        <h2 className="text-xl font-semibold mb-3">{t('records.biggestBuyIn')}</h2>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b">
               <th className="p-2">#</th>
-              <th className="p-2">Player</th>
-              <th className="p-2">Game</th>
-              <th className="p-2">Buy-in</th>
+              <th className="p-2">{t('records.col.player')}</th>
+              <th className="p-2">{t('records.col.game')}</th>
+              <th className="p-2">{t('records.col.buyIn')}</th>
             </tr>
           </thead>
           <tbody>
@@ -137,13 +139,13 @@ export default function Records() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">💰 Biggest Pot (top 5 games)</h2>
+        <h2 className="text-xl font-semibold mb-3">{t('records.biggestPot')}</h2>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b">
               <th className="p-2">#</th>
-              <th className="p-2">Game</th>
-              <th className="p-2">Pot</th>
+              <th className="p-2">{t('records.col.game')}</th>
+              <th className="p-2">{t('records.col.pot')}</th>
             </tr>
           </thead>
           <tbody>

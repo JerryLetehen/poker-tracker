@@ -10,6 +10,7 @@ export interface TelegramWebApp {
       first_name?: string;
       last_name?: string;
       username?: string;
+      language_code?: string;
     };
   };
   ready?: () => void;

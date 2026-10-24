@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { CrownName } from '../hooks/useTopPlayer';
 import { formatValue, valueColor, findBest, findWorst } from '../utils';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -57,6 +58,7 @@ interface ProgressionPoint {
 export default function PlayerProfile() {
   const { name } = useParams();
   const [data, setData] = useState<ProgressionPoint[]>([]);
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<ProgressionPoint[]>(`/players/${name}/progression`)
@@ -75,7 +77,7 @@ export default function PlayerProfile() {
     labels: data.map(p => p.date),
     datasets: [
       {
-        label: 'Cumulative Result',
+        label: t('player.cumulative'),
         data: data.map(p => p.cumulativeResult),
         borderColor: 'rgb(59, 130, 246)',
         tension: 0.1,
@@ -90,21 +92,21 @@ export default function PlayerProfile() {
       {lastPoint && (
         <div className="space-y-1 mb-4">
           <div className="flex justify-between border rounded-lg p-2">
-            <span className="text-gray-500 text-sm">Games</span>
+            <span className="text-gray-500 text-sm">{t('player.games')}</span>
             <span className="font-medium text-sm">{data.length}</span>
           </div>
           <div className="flex justify-between border rounded-lg p-2">
-            <span className="text-gray-500 text-sm">Net</span>
+            <span className="text-gray-500 text-sm">{t('player.net')}</span>
             <span className={`font-medium text-sm ${valueColor(lastPoint.cumulativeResult)}`}>{formatValue(lastPoint.cumulativeResult)}</span>
           </div>
           <div className="flex justify-between border rounded-lg p-2">
-            <span className="text-gray-500 text-sm">Rate</span>
+            <span className="text-gray-500 text-sm">{t('player.rate')}</span>
             <span className={`font-medium text-sm ${valueColor(lastPoint.rate)}`}>{formatValue(lastPoint.rate)}</span>
           </div>
 
           {bestWin && (
             <div className="flex justify-between border rounded-lg p-2">
-              <span className="text-gray-500 text-sm">Best</span>
+              <span className="text-gray-500 text-sm">{t('player.best')}</span>
               <span className="text-sm">
                 <span className={`font-medium ${valueColor(bestWin.result)}`}>{formatValue(bestWin.result)}</span>
                 {' '}<Link to={`/games/${bestWin.gameId}`} className="text-blue-600 text-xs">({bestWin.date})</Link>
@@ -113,7 +115,7 @@ export default function PlayerProfile() {
           )}
           {worstLoss && (
             <div className="flex justify-between border rounded-lg p-2">
-              <span className="text-gray-500 text-sm">Worst</span>
+              <span className="text-gray-500 text-sm">{t('player.worst')}</span>
               <span className="text-sm">
                 <span className={`font-medium ${valueColor(worstLoss.result)}`}>{formatValue(worstLoss.result)}</span>
                 {' '}<Link to={`/games/${worstLoss.gameId}`} className="text-blue-600 text-xs">({worstLoss.date})</Link>
@@ -122,7 +124,7 @@ export default function PlayerProfile() {
           )}
           {maxCumulative && (
             <div className="flex justify-between border rounded-lg p-2">
-              <span className="text-gray-500 text-sm">Peak</span>
+              <span className="text-gray-500 text-sm">{t('player.peak')}</span>
               <span className="text-sm">
                 <span className={`font-medium ${valueColor(maxCumulative.cumulativeResult)}`}>{formatValue(maxCumulative.cumulativeResult)}</span>
                 {' '}<Link to={`/games/${maxCumulative.gameId}`} className="text-blue-600 text-xs">({maxCumulative.date})</Link>
@@ -131,7 +133,7 @@ export default function PlayerProfile() {
           )}
           {minCumulative && (
             <div className="flex justify-between border rounded-lg p-2">
-              <span className="text-gray-500 text-sm">Low</span>
+              <span className="text-gray-500 text-sm">{t('player.low')}</span>
               <span className="text-sm">
                 <span className={`font-medium ${valueColor(minCumulative.cumulativeResult)}`}>{formatValue(minCumulative.cumulativeResult)}</span>
                 {' '}<Link to={`/games/${minCumulative.gameId}`} className="text-blue-600 text-xs">({minCumulative.date})</Link>
@@ -140,7 +142,7 @@ export default function PlayerProfile() {
           )}
           {biggestBuyIn && (
             <div className="flex justify-between border rounded-lg p-2">
-              <span className="text-gray-500 text-sm">Max Buy-in</span>
+              <span className="text-gray-500 text-sm">{t('player.maxBuyIn')}</span>
               <span className="text-sm">
                 <span className="font-medium">{biggestBuyIn.buyIn.toFixed(2)}</span>
                 {' '}<Link to={`/games/${biggestBuyIn.gameId}`} className="text-blue-600 text-xs">({biggestBuyIn.date})</Link>
@@ -157,7 +159,7 @@ export default function PlayerProfile() {
       {/* Player's games list */}
       {data.length > 0 && (
         <div className="mt-4 space-y-2">
-          <p className="text-sm text-gray-500 font-medium">Games:</p>
+          <p className="text-sm text-gray-500 font-medium">{t('player.gamesList')}</p>
           {[...data].reverse().map(point => (
             <Link key={point.gameId} to={`/games/${point.gameId}`} className="block">
               <div className="flex justify-between items-center border rounded-lg p-2 active:bg-gray-50">

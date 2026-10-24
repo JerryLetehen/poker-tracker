@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 
 interface Game {
   id: number;
@@ -18,6 +19,7 @@ interface Game {
 
 export default function Games() {
   const [games, setGames] = useState<Game[]>([]);
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<Game[]>('/games')
@@ -27,7 +29,7 @@ export default function Games() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold mb-3">Games</h1>
+      <h1 className="text-lg font-bold mb-3">{t('games.title')}</h1>
       <div className="space-y-2">
         {games.map(game => (
           <Link key={game.id} to={`/games/${game.id}`} className="block">
@@ -37,8 +39,8 @@ export default function Games() {
                 <span className="text-xs text-gray-400">{game.gameType}</span>
               </div>
               <div className="flex gap-3 mt-1 text-sm text-gray-600">
-                <span>{game.playerCount} players</span>
-                <span>Pot: {game.pot.toFixed(0)}</span>
+                <span>{game.playerCount} {t('games.players')}</span>
+                <span>{t('games.pot')}: {game.pot.toFixed(0)}</span>
               </div>
               <div className="flex gap-3 mt-1 text-xs">
                 <span>🏆 <span className="text-green-600">{game.biggestNetPlayer} +{game.biggestNetAmount.toFixed(0)}</span></span>

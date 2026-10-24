@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
 import { apiFetch } from '../api/client';
+import { useI18n } from '../i18n/I18nProvider';
 
 interface PlayerSnapshot {
   name: string;
@@ -22,6 +23,7 @@ const COLORS = [
 export default function ChartRace() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [totalRounds, setTotalRounds] = useState(0);
+  const { t } = useI18n();
 
   useEffect(() => {
     apiFetch<Snapshot[]>('/leaderboard/history')
@@ -240,7 +242,7 @@ export default function ChartRace() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Race</h1>
+      <h1 className="text-2xl font-bold mb-4">{t('race.title')}</h1>
       <div className="mb-4 flex gap-2 items-center">
         <button id="play-pause-button" className="px-3 py-1 rounded bg-green-600 text-white">
           ▶ Play

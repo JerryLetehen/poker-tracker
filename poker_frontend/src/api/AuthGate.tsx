@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { apiFetch, ApiAuthError, type AuthErrorReason } from './client';
 import { initTelegram } from './telegram';
+import { useI18n } from '../i18n/I18nProvider';
 
 type GateState =
   | { status: 'loading' }
@@ -45,12 +46,14 @@ export default function AuthGate({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const { t } = useI18n();
+
   if (state.status === 'loading') {
-    return <CenteredMessage title="Loading…" />;
+    return <CenteredMessage title={t('access.loading')} />;
   }
 
   if (state.status === 'blocked') {
-    return <AccessScreen reason={state.reason} message={state.message} telegramUserId={state.telegramUserId} />;
+    return <AccessScreen reason={state.reason} telegramUserId={state.telegramUserId} />;
   }
 
   return <>{children}</>;
@@ -58,25 +61,25 @@ export default function AuthGate({ children }: { children: ReactNode }) {
 
 function AccessScreen({
   reason,
-  message,
   telegramUserId,
 }: {
   reason: AuthErrorReason;
-  message: string;
   telegramUserId?: number;
 }) {
+  const { t } = useI18n();
+
   if (reason === 'unauthenticated') {
     return (
       <CenteredMessage
-        title="Open from Telegram"
-        body="This app is only available through its Telegram bot. Please open it from the bot."
+        title={t('access.openFromTelegram.title')}
+        body={t('access.openFromTelegram.body')}
       />
     );
   }
 
   if (reason === 'pending') {
     return (
-      <CenteredMessage title="Access pending" body="Your request is waiting for approval.">
+      <CenteredMessage title={t('access.pending.title')} body={t('access.pending.body')}>
         {telegramUserId !== undefined && <TelegramIdBadge id={telegramUserId} />}
       </CenteredMessage>
     );
@@ -84,16 +87,17 @@ function AccessScreen({
 
   // denied
   return (
-    <CenteredMessage title="No access" body={message || 'You do not have access to this app.'}>
+    <CenteredMessage title={t('access.denied.title')} body={t('access.denied.body')}>
       {telegramUserId !== undefined && <TelegramIdBadge id={telegramUserId} />}
     </CenteredMessage>
   );
 }
 
 function TelegramIdBadge({ id }: { id: number }) {
+  const { t } = useI18n();
   return (
     <div className="mt-4 text-sm text-gray-600">
-      <div>Share this Telegram ID with the admin to get access:</div>
+      <div>{t('access.idHint')}</div>
       <div className="mt-1 font-mono text-base font-semibold text-gray-900" data-testid="telegram-id">
         {id}
       </div>
