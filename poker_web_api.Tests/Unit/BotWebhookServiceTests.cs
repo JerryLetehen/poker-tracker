@@ -18,6 +18,11 @@ public class BotWebhookServiceTests
             Text = text;
             return Task.CompletedTask;
         }
+
+        public Task<bool> SendTextAsync(
+            string botToken, string chatId, string text, bool disableWebPagePreview = true,
+            string? parseMode = null, CancellationToken ct = default)
+            => Task.FromResult(true);
     }
 
     private static JsonElement Parse(string json) => JsonDocument.Parse(json).RootElement.Clone();

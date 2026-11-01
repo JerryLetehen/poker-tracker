@@ -47,6 +47,10 @@ export default function GamePage() {
   // Chip counter state
   const [chipCounts, setChipCounts] = useState<Record<number, number>>({});
 
+  // Publish-results state
+  const [publishing, setPublishing] = useState(false);
+  const [publishMessage, setPublishMessage] = useState<{ ok: boolean; text: string } | null>(null);
+
   const chipValue = calculateChipValue(chipCounts);
 
   useEffect(() => {
@@ -89,6 +93,22 @@ export default function GamePage() {
 
   function updateChip(nominal: number, delta: number) {
     setChipCounts(prev => updateChipCount(prev, nominal, delta));
+  }
+
+  async function publishResults() {
+    if (!window.confirm("Publish this game's results to the group?")) return;
+
+    setPublishing(true);
+    setPublishMessage(null);
+    try {
+      // The server builds the text message from the game data and posts it to the group.
+      await apiJson(`/admin/games/${id}/publish`, 'POST', {});
+      setPublishMessage({ ok: true, text: 'Results published to the group.' });
+    } catch {
+      setPublishMessage({ ok: false, text: 'Failed to publish results. Please try again.' });
+    } finally {
+      setPublishing(false);
+    }
   }
 
   async function deleteEntry(entryId: number) {
@@ -279,6 +299,20 @@ export default function GamePage() {
             Cancel
           </button>
         </div>
+      )}
+
+      {/* Publish results */}
+      <button
+        className="w-full mt-6 py-3 bg-green-600 text-white rounded-lg font-medium active:bg-green-700 disabled:opacity-50"
+        disabled={publishing}
+        onClick={publishResults}
+      >
+        {publishing ? 'Publishing…' : 'Publish results'}
+      </button>
+      {publishMessage && (
+        <p className={`mt-2 text-sm text-center ${publishMessage.ok ? 'text-green-600' : 'text-red-600'}`}>
+          {publishMessage.text}
+        </p>
       )}
 
       {/* Delete game */}

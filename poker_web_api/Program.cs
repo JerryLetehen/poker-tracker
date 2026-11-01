@@ -127,6 +127,7 @@ app.MapCreatePlayer();
 app.MapGetPlayersWithIds();
 app.MapRenamePlayer();
 app.MapGetAdminGameDetail();
+app.MapPublishGameResults();
 app.MapGetDbStatus();
 app.MapCheckpointDb();
 app.MapBackupDb();

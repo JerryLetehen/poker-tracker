@@ -12,6 +12,8 @@ export interface TelegramWebApp {
       username?: string;
       language_code?: string;
     };
+    // Set from a t.me/<bot>?startapp=<param> deep link.
+    start_param?: string;
   };
   ready?: () => void;
   expand?: () => void;
@@ -43,6 +45,26 @@ export function getInitData(): string {
     return import.meta.env.VITE_DEV_INIT_DATA ?? '';
   }
   return '';
+}
+
+/**
+ * Resolves the deep-link target path from the Telegram `start_param` (set by a
+ * t.me/<bot>?startapp=<param> link). Supports:
+ *   - "game_<id>"   → "/games/<id>"
+ *   - "leaderboard" → "/"
+ * Returns null when there is no recognised start param.
+ */
+export function startParamToPath(): string | null {
+  const param = getWebApp()?.initDataUnsafe?.start_param
+    // Dev override for browser testing: ?startapp=game_5 in the URL.
+    ?? new URLSearchParams(window.location.search).get('startapp')
+    ?? undefined;
+  if (!param) return null;
+
+  if (param === 'leaderboard') return '/';
+  const gameMatch = /^game_(\d+)$/.exec(param);
+  if (gameMatch) return `/games/${gameMatch[1]}`;
+  return null;
 }
 
 /** True when the page is actually running inside the Telegram client. */

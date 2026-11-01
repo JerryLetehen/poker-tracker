@@ -52,6 +52,23 @@ public sealed class TelegramAuthOptions
     public long DevMockUserId { get; set; } = 1;
 
     /// <summary>
+    /// Telegram chat id of the group where game results are published (as a text message).
+    /// A group chat id is a negative number such as -1001234567890. Stored as a string
+    /// because it can exceed int range and is passed straight through to the Bot API.
+    /// Provided via env var TelegramAuth__ResultsChatId. If empty, the publish endpoint
+    /// returns a clear 400 instead of attempting to send.
+    /// </summary>
+    public string ResultsChatId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The PUBLIC bot's username (without the leading @), used to build Mini App deep
+    /// links in the published results message, e.g. https://t.me/&lt;username&gt;?startapp=game_5.
+    /// Provided via env var TelegramAuth__PublicBotUsername. Differs per environment
+    /// (local test bot vs prod), so it is configured rather than hard-coded.
+    /// </summary>
+    public string PublicBotUsername { get; set; } = string.Empty;
+
+    /// <summary>
     /// Secret path segment for the bot webhook endpoint. Telegram is configured (via
     /// setWebhook) to call /bot/{app}/webhook/{secret}; only requests carrying the
     /// matching secret are processed. Provided via env var TelegramAuth__WebhookSecret.

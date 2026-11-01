@@ -1,4 +1,6 @@
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { startParamToPath } from './api/telegram';
 import Leaderboard from './pages/Leaderboard';
 import Games from './pages/Games';
 import GameDetail from './pages/GameDetail';
@@ -10,6 +12,19 @@ import Records from './pages/Records';
 import AuthGate from './api/AuthGate';
 import { I18nProvider, useI18n } from './i18n/I18nProvider';
 import type { TranslationKey } from './i18n';
+
+// On first load, if opened via a Telegram deep link (startapp=game_<id> | leaderboard),
+// navigate to the corresponding page.
+function DeepLinkHandler() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const path = startParamToPath();
+    if (path) navigate(path, { replace: true });
+    // Run once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return null;
+}
 
 function DevLangToggle() {
   const { lang, setLang } = useI18n();
@@ -66,6 +81,7 @@ export default function App() {
     <AuthGate>
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50 pb-16">
+        <DeepLinkHandler />
         <DevLangToggle />
         <main className="px-4 pt-4">
           <Routes>
