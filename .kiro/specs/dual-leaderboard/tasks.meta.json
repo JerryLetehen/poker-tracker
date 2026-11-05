@@ -1,0 +1,510 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Add the `LeaderboardsResponse` DTO": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975736
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830983516
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831026767
+      }
+    ],
+    "2.1 Add constants and the new `GetLeaderboards` signature": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975802
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831033492
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831093457
+      }
+    ],
+    "2.2 Factor out `LoadPlayerGameNets` shared aggregation": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975841
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831096491
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831166173
+      }
+    ],
+    "2.3 Factor out `BuildEntries(rows, minGames)`": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975880
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831170524
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831222087
+      }
+    ],
+    "2.4 Factor out `OrderEntries(entries, sortBy)` deterministic ordering": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975920
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831225048
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831270849
+      }
+    ],
+    "2.5 Assemble Active and All lists in `GetLeaderboards`": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975951
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831274165
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831324058
+      }
+    ],
+    "3. Update the `GetLeaderboard` endpoint": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830975977
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831327252
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831374798
+      }
+    ],
+    "4. Adapt existing repository unit tests to the new return shape": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976005
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831405214
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831630580
+      }
+    ],
+    "5. Add example and edge-case repository unit tests": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976033
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831653059
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831733311
+      }
+    ],
+    "6.1 Property 1: window scope inclusive on both endpoints": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976060
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831409853
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831632023
+      }
+    ],
+    "6.2 Property 2: Active membership follows the game-count threshold": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976084
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831638071
+      }
+    ],
+    "6.3 Property 3: per-game net equals cash-outs minus buy-ins": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976120
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831638979
+      }
+    ],
+    "6.4 Property 4: Result and Rate are a consistent aggregation of in-scope games": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976149
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831640375
+      }
+    ],
+    "6.5 Property 5: Active stats ignore out-of-window games": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976176
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831641857
+      }
+    ],
+    "6.6 Property 6: All membership follows the all-time game-count threshold": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976202
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831642723
+      }
+    ],
+    "6.7 Property 7: repeated entries in one game count as a single game": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976228
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831644227
+      }
+    ],
+    "6.8 Property 8: each list is a deterministic total ordering": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976253
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831645085
+      }
+    ],
+    "6.9 Property 9: the minGames parameter affects only the All list": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976281
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831646529
+      }
+    ],
+    "7.1 Response shape and row fields": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976309
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831410533
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831632597
+      }
+    ],
+    "7.2 Defaults": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976344
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831647436
+      }
+    ],
+    "7.3 Invalid-parameter rejection": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976383
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831648336
+      }
+    ],
+    "8. Checkpoint - backend complete": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976424
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831737602
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831742114
+      }
+    ],
+    "9. Update frontend leaderboard types and fetch": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976457
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831745529
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831840985
+      }
+    ],
+    "10. Extract a shared `LeaderboardTable` sub-component": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976488
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831844757
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831941682
+      }
+    ],
+    "11. Render both tables with shared sort and independent empty states": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976519
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831946043
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832008034
+      }
+    ],
+    "12. Add i18n keys": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976560
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831845810
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831942611
+      }
+    ],
+    "13.1 Layout, columns, and ranks": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976593
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832021795
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832133888
+      }
+    ],
+    "13.2 Localized headings": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976620
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832025251
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832135331
+      }
+    ],
+    "13.3 Shared sort behavior": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976662
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832026258
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832136181
+      }
+    ],
+    "13.4 Independent empty states": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976695
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832027072
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832136955
+      }
+    ],
+    "14. Final verification - build and test both sides": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793830976726
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832140591
+      },
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832203644
+      }
+    ],
+    "2. Refactor `LeaderboardRepository` to compute both lists": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831324091
+      }
+    ],
+    "6. Add property-based repository tests (FsCheck.Xunit)": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831646565
+      }
+    ],
+    "7. Add endpoint tests for `GetLeaderboard`": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793831648376
+      }
+    ],
+    "13. Add frontend component tests for `Leaderboard.tsx`": [
+      {
+        "executionId": "fb14cf60-28f1-4614-8427-d287940ff643",
+        "chatSessionId": "sess_92f9a0f7-3230-4c61-9045-0521d5f21221",
+        "timestamp": 1793832136997
+      }
+    ]
+  }
+}

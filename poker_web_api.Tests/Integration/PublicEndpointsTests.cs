@@ -54,8 +54,9 @@ public class PublicEndpointsTests : IClassFixture<TestWebAppFactory>
     {
         var response = await _client.GetAsync("/leaderboard?minGames=1&sortBy=rate");
         response.EnsureSuccessStatusCode();
-        var data = await response.Content.ReadFromJsonAsync<List<LeaderboardResponse>>();
+        var data = await response.Content.ReadFromJsonAsync<LeaderboardsResponse>();
         Assert.NotNull(data);
+        Assert.NotNull(data!.All);
     }
 
     [Fact]
@@ -72,9 +73,9 @@ public class PublicEndpointsTests : IClassFixture<TestWebAppFactory>
         await _client.PostAsJsonAsync($"/admin/games/{game.Id}/cash-out", new { playerId = player.Id, amount = 80 });
 
         var response = await _client.GetAsync("/leaderboard?minGames=1&sortBy=rate");
-        var data = await response.Content.ReadFromJsonAsync<List<LeaderboardResponse>>();
+        var data = await response.Content.ReadFromJsonAsync<LeaderboardsResponse>();
 
-        var entry = data!.FirstOrDefault(e => e.Name == "LeaderboardPlayer");
+        var entry = data!.All.FirstOrDefault(e => e.Name == "LeaderboardPlayer");
         Assert.NotNull(entry);
         Assert.Equal(1, entry.Games);
         Assert.Equal(30m, entry.Result);
@@ -84,8 +85,8 @@ public class PublicEndpointsTests : IClassFixture<TestWebAppFactory>
     public async Task GetLeaderboard_MinGamesFilters_CorrectBehavior()
     {
         var response = await _client.GetAsync("/leaderboard?minGames=1000&sortBy=rate");
-        var data = await response.Content.ReadFromJsonAsync<List<LeaderboardResponse>>();
-        Assert.Empty(data!);
+        var data = await response.Content.ReadFromJsonAsync<LeaderboardsResponse>();
+        Assert.Empty(data!.All);
     }
 
     // === GET /games ===
@@ -262,26 +263,27 @@ public class PublicEndpointsTests : IClassFixture<TestWebAppFactory>
         }
 
         var rateRes = await _client.GetAsync("/leaderboard?minGames=1&sortBy=rate");
-        var rateData = await rateRes.Content.ReadFromJsonAsync<List<LeaderboardResponse>>();
+        var rateData = await rateRes.Content.ReadFromJsonAsync<LeaderboardsResponse>();
 
         var netRes = await _client.GetAsync("/leaderboard?minGames=1&sortBy=net");
-        var netData = await netRes.Content.ReadFromJsonAsync<List<LeaderboardResponse>>();
+        var netData = await netRes.Content.ReadFromJsonAsync<LeaderboardsResponse>();
 
         // By rate: P1 first (rate 100 > 20)
-        var p1RateIdx = rateData!.FindIndex(e => e.Name == "HighRateLowNet");
-        var p2RateIdx = rateData.FindIndex(e => e.Name == "LowRateHighNet");
+        var p1RateIdx = rateData!.All.FindIndex(e => e.Name == "HighRateLowNet");
+        var p2RateIdx = rateData.All.FindIndex(e => e.Name == "LowRateHighNet");
         Assert.True(p1RateIdx < p2RateIdx);
 
         // By net: P2 first (200 > 100)
-        var p1NetIdx = netData!.FindIndex(e => e.Name == "HighRateLowNet");
-        var p2NetIdx = netData.FindIndex(e => e.Name == "LowRateHighNet");
+        var p1NetIdx = netData!.All.FindIndex(e => e.Name == "HighRateLowNet");
+        var p2NetIdx = netData.All.FindIndex(e => e.Name == "LowRateHighNet");
         Assert.True(p2NetIdx < p1NetIdx);
     }
 
     // === Response DTOs ===
     private record PlayerResponse(int Id, string Name);
     private record GameResponse(int Id, string Date, string GameType, decimal BuyInAmount);
-    private record LeaderboardResponse(string Name, int Games, decimal Result, double Rate);
+    private record LeaderboardsResponse(List<LeaderboardRow> Active, List<LeaderboardRow> All);
+    private record LeaderboardRow(string Name, int Games, decimal Result, double Rate);
     private record GamesListResponse(int Id, string Date, string GameType, int PlayerCount, decimal Pot);
     private record GameDetailResponse(string Date, string GameType, List<GameDetailPlayerResponse> Players);
     private record GameDetailPlayerResponse(string PlayerName, decimal BuyIn, decimal CashOut, decimal Net);

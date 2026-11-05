@@ -26,6 +26,10 @@ export const translations = {
 
   // --- Leaderboard ---
   'leaderboard.title': { en: 'Leaderboard', ru: 'Рейтинг' },
+  'leaderboard.active': { en: 'Active Players', ru: 'Активные игроки' },
+  'leaderboard.all': { en: 'All Players', ru: 'Все игроки' },
+  'leaderboard.empty.active': { en: 'No active players yet', ru: 'Пока нет активных игроков' },
+  'leaderboard.empty.all': { en: 'No players yet', ru: 'Пока нет игроков' },
   'leaderboard.net': { en: 'Net', ru: 'Итог' },
   'leaderboard.rate': { en: 'Rate', ru: 'Среднее' },
   'leaderboard.col.name': { en: 'Name', ru: 'Имя' },
